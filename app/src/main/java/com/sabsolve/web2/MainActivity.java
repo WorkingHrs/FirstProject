@@ -1,5 +1,6 @@
 package com.sabsolve.web2;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.webkit.WebChromeClient;
@@ -18,12 +19,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //Here checking the internet connection.\
-        if(!CommonUtil.isInternetWorking(this))
-        {
-            Toast.makeText(this, "Unable to connect to Internet.", Toast.LENGTH_LONG);
-        }
 
         if(webView==null) {
             webView = (WebView) findViewById(R.id.sabSolveWV);
@@ -55,11 +50,30 @@ public class MainActivity extends AppCompatActivity {
             });
 
             webView.setWebChromeClient(new WebChromeClient());
-            webView.loadUrl("http://sabsolve.com/newtest/test");
+            webView.loadUrl("http://sabsolve.com");
         }
 
         if (savedInstanceState != null)
             ((WebView)findViewById(R.id.sabSolveWV)).restoreState(savedInstanceState);
+
+        checkForInternetWorking(this);
+    }
+
+    private void checkForInternetWorking(final Activity activity)
+    {
+        try {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    //Here checking the internet connection.\
+                    if(!CommonUtil.isInternetWorking(activity))
+                    {
+                        Toast.makeText(activity, "Unable to connect to Internet.", Toast.LENGTH_LONG);
+                    }
+                }
+            }).start();
+
+        }catch (Exception ex){}
 
     }
 

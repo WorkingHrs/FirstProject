@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.widget.Toast;
 
 /**
  * Created by SONY on 10/13/2015.
@@ -14,6 +15,7 @@ public class CommonUtil
     {
         boolean internetConnected = false;
         try {
+            Toast.makeText(activity,"Checking internet connection", Toast.LENGTH_LONG);
             ConnectivityManager connectivityManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo wifiNetwork = connectivityManager
                     .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
